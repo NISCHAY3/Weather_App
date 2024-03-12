@@ -1,4 +1,4 @@
-async function showWeather() {
+async function FetchWeatherDetails() {
 
     let city = "delhi";
 
@@ -14,26 +14,20 @@ async function showWeather() {
     try {
         const response = await fetch(url, options);
         const result = await response.json();
-
         let newPara = document.createElement('p');
         let temp = result?.main?.temp.toFixed(2);
         let cel = Math.floor(tempIncelcius(temp))
-        // console.log(cel)
         newPara.textContent = `${cel} °C`
         document.body.appendChild(newPara);
-
         console.log(result);
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
     }
-
-
 }
 
 function tempIncelcius(temp) {
-
     let cel = 5 / 9 * (temp - 32);
     return cel
-
 }
 
