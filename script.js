@@ -16,7 +16,7 @@ async function FetchWeatherDetails() {
         const result = await response.json();
         let newPara = document.createElement('p');
         let temp = result?.main?.temp.toFixed(2);
-        let cel = Math.floor(tempIncelcius(temp))
+        let cel = tempIncelcius(temp).toFixed(2);
         newPara.textContent = `${cel} °C`
         document.body.appendChild(newPara);
         console.log(result);
