@@ -1,26 +1,3 @@
-// console.log("hello world");
-
-// const API_KEY = "dbfd4312418e1ea3cfa865c2616f2ab2";
-
-// async function showWeather() {
-//     // let latitude = 15.333;
-//     // let longitude = 74.0833;
-//     let city = "goa";
-//     const response = await fetch(`https://api.openweathermap.org/data/3.0/weather?q=${city}&appid=&{API_KEY}&units=metric`);
-
-//     const data = await response.json();
-
-//     console.log("weather data:-> ", data);
-
-//     let newPara = document.createElement('p');
-//     newPara.textContent = `${data?.main?.temp.toFixed(2)} C`
-//     document.body.appendChild(newPara);
-
-// }
-
-// // showWeather()
-
-
 async function showWeather() {
 
     let city = "delhi";
@@ -41,8 +18,8 @@ async function showWeather() {
         let newPara = document.createElement('p');
         let temp = result?.main?.temp.toFixed(2);
         let cel = Math.floor(tempIncelcius(temp))
-        console.log(cel)
-        newPara.textContent = `${cel} C`
+        // console.log(cel)
+        newPara.textContent = `${cel} °C`
         document.body.appendChild(newPara);
 
         console.log(result);
@@ -59,6 +36,4 @@ function tempIncelcius(temp) {
     return cel
 
 }
-
-showWeather()
 
