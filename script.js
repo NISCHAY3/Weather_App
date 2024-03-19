@@ -108,7 +108,7 @@ async function fetchUserWeatherInfo(coordinates) {
 
     try {
         const response = await fetch(url, options);
-        const result = await response.text();
+        const result = await response.json();
         console.log(result);
 
         loadingScreen.classList.remove("active");
@@ -125,12 +125,98 @@ async function fetchUserWeatherInfo(coordinates) {
 function renderWeartherInfo(weatherInfo) {
 
     const cityName = document.querySelector("[data-cityName]");
-
     const countryIcon = document.querySelector("[data-countryIcon]");
 
+    const desc = document.querySelector("[data-weatherDesc]");
+    const weatherIcon = document.querySelector("[data-weatherIcon]");
+    const temp = document.querySelector("[data-temp]");
+    const windspeed = document.querySelector("data-windspeed");
 
+    const humidity = document.querySelector("[data-humidity]");
+    const cloudiness = document.querySelector("[data-cloudiness]");
+
+    //fetch values
+    cityName.innerText = weatherInfo?.name;
+    countryIcon.src = `https://flagcdn.com/144/108/${weatherInfo?.sys?.country.toLowerCase()}.png`;
+    desc.innerText = weatherInfo?.weather?.[0]?.description;
+    weatherIcon.src = `https://openweathermap.org/img/w/${weatherInfo?.weather?.[0]?.icon}.png`;
+    temp.innerText = `${weatherInfo?.main?.temp} °C`;
+    windspeed.innerText = `${weatherInfo?.wind?.speed} m/s`;
+    humidity.innerText = `${weatherInfo?.main?.humidity}%`;
+    cloudiness.innerText = `${weatherInfo?.clouds?.all}%`;
 
 }
+
+function getlocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    }
+    else {
+        //show an alert for no geo location
+    }
+}
+
+function showPosition(position) {
+    const userCoordinates = {
+        lat: position.coords.latitude,
+        lon: position.coords.longitude
+    }
+    sessionStorage.setItem("user-coordinates", JSON.stringify(userCoordinates));
+    fetchUserWeatherInfo(userCoordinates);
+}
+
+const grantAccessButton = document.querySelector("[data-grantAccess]");
+grantAccessButton.addEventListener("click", getlocation);
+
+
+const searchInput = document.querySelector("[data-searchInput]");
+
+searchForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    let cityName = searchInput.value;
+    if (cityName === "")
+        return;
+    else
+        fetchSearchWeatherInfo(cityName);
+
+
+})
+
+
+async function fetchSearchWeatherInfo(city) {
+
+
+    loadingScreen.classList.add("active");
+    userInfoContainer.classList.remove("active");
+    grantAccessContainer.classList.remove("actvie");
+    const url = `https://open-weather13.p.rapidapi.com/city/${city}`;
+    const options = {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': 'f90cae834emsh2cdacd862c0d8a6p1cb217jsn1b79bb49d3f4',
+            'X-RapidAPI-Host': 'open-weather13.p.rapidapi.com'
+        }
+    };
+
+    try {
+        const response = await fetch(url, options);
+        const result = await response.json();
+        console.log(result);
+        loadingScreen.classList.remove("active");
+
+        userInfoContainer.classList.add("active");
+
+        renderWeartherInfo(result);
+
+
+    }
+    catch (err) {
+
+
+    }
+
+}
+
 
 
 
