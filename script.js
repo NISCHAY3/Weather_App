@@ -141,7 +141,7 @@ function renderWeartherInfo(weatherInfo) {
     desc.innerText = weatherInfo?.weather?.[0]?.description;
     weatherIcon.src = `https://openweathermap.org/img/w/${weatherInfo?.weather?.[0]?.icon}.png`;
     temp.innerText = `${weatherInfo?.main?.temp} °C`;
-    windspeed.innerText = `${weatherInfo?.wind?.speed} m/s`;
+    windspeed.innerText = `${weatherInfo?.wind.speed} m/s`;
     humidity.innerText = `${weatherInfo?.main?.humidity}%`;
     cloudiness.innerText = `${weatherInfo?.clouds?.all}%`;
 
@@ -202,6 +202,7 @@ async function fetchSearchWeatherInfo(city) {
         const response = await fetch(url, options);
         const result = await response.json();
         console.log(result);
+
         loadingScreen.classList.remove("active");
 
         userInfoContainer.classList.add("active");
